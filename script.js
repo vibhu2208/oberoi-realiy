@@ -1480,7 +1480,7 @@ function initAmenitiesCategoriesAnimation() {
             items: [
                 { name: "Banquet Hall", icon: "�", image: "banquet-hall.webp" },
                 { name: "Open-air Party Lawn", icon: "🌿", image: "Rooftop-Sky-Garden.webp" },
-                { name: "Clubhouse Ballroom", icon: "💃", image: "clubhouse-ballroom.webp" },
+                
                 { name: "Karaoke & Dance Lounge", icon: "�", image: "Karaoke-&-Dance-Lounge.webp" },
                 { name: "Outdoor Barbecue & Grill Area", icon: "�", image: "Outdoor-Barbecue-&-Grill-Area.webp" },
                 { name: "Rooftop Sky Lounge", icon: "�", image: "Rooftop-Sky-Lounge.webp" },
