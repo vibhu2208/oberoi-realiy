@@ -2652,8 +2652,19 @@ body.content-visible {
 }
 
 .navbar-phone .phone-number {
-    font-weight: 800;
+    font-family: 'Poppins', sans-serif; /* sans-serif number text */
+    font-weight: 600; /* plain text weight */
     letter-spacing: 0.4px;
+    text-decoration: none;
+}
+
+/* Keep text color plain and unchanged on hover/focus/active */
+.navbar-phone .phone-link,
+.navbar-phone .phone-link:hover,
+.navbar-phone .phone-link:focus,
+.navbar-phone .phone-link:active {
+    color: #0e0e0e;
+    text-decoration: none;
 }
 
 @media (max-width: 768px) {
