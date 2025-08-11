@@ -2144,7 +2144,7 @@ body.content-visible {
 }
 
 .form-input {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(182, 177, 177, 0.25);
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
@@ -2166,7 +2166,7 @@ body.content-visible {
 
 .form-input:focus {
     border-color: #D4AF37;
-    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1),
+    box-shadow: 0 0 0 4px rgba(83, 83, 83, 0.1),
                 0 8px 30px rgba(212, 175, 55, 0.15);
     background: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
@@ -2597,6 +2597,70 @@ body.content-visible {
 .navbar-phone {
     display: flex;
     align-items: center;
+}
+
+/* Make the nav phone CTA stand out strongly */
+.navbar-phone .phone-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 9999px;
+    color: #0e0e0e;
+    background: linear-gradient(135deg, #E8C372, #f4d03f);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(232, 195, 114, 0.35), 0 0 0 3px rgba(232, 195, 114, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    position: relative;
+}
+
+.navbar-phone .phone-link:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(232, 195, 114, 0.45), 0 0 0 4px rgba(232, 195, 114, 0.35);
+    background: linear-gradient(135deg, #f4d03f, #E8C372);
+}
+
+.navbar-phone .phone-link:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Subtle pulsing glow to draw attention */
+.navbar-phone .phone-link::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 rgba(232, 195, 114, 0.35);
+    animation: phonePulse 2.2s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes phonePulse {
+    0% { box-shadow: 0 0 0 0 rgba(232, 195, 114, 0.35); }
+    70% { box-shadow: 0 0 0 12px rgba(232, 195, 114, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(232, 195, 114, 0); }
+}
+
+.navbar-phone .phone-icon {
+    width: 20px;
+    height: 20px;
+    color: #0e0e0e;
+}
+
+.navbar-phone .phone-number {
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+@media (max-width: 768px) {
+    .navbar-phone .phone-link {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
 }
 
 .phone-link {
