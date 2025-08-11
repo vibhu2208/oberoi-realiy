@@ -935,15 +935,15 @@ body.content-visible {
 
 .about-container {
     max-width: 1200px;
-    margin-left: 0;
+    margin-left: auto;
     margin-right: auto;
     padding: 0 2rem;
-    text-align: left;
+    text-align: center;
 }
 
 .about-header-section {
     margin-bottom: 4rem;
-    text-align: left;
+    text-align: center;
 }
 
 .about-content-wrapper {
@@ -1048,8 +1048,9 @@ body.content-visible {
     
     .about-container {
         padding: 0 1.5rem;
-        margin-left: 0;
+        margin-left: auto;
         margin-right: auto;
+        text-align: center;
     }
     
     .about-content-wrapper {
@@ -1061,6 +1062,12 @@ body.content-visible {
         order: -1; /* Show image first on mobile */
     }
     
+    .about-text-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        justify-self: center;
+    }
     .about-image {
         max-width: 400px;
         margin-bottom: 0;
@@ -2079,6 +2086,20 @@ body.content-visible {
     pointer-events: none;
 }
 
+/* Soft decorative bloom accents */
+.luxury-contact-form-section::after {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -80px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,195,114,0.15) 0%, rgba(232,195,114,0) 60%);
+    filter: blur(20px);
+    pointer-events: none;
+}
+
 .luxury-contact-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -2112,9 +2133,50 @@ body.content-visible {
     letter-spacing: 0.5px;
 }
 
+/* Hotline below subtitle */
+.form-hotline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    text-decoration: none;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    color: #2c2c2c;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.15);
+}
+
+.form-hotline:hover {
+    background: rgba(212, 175, 55, 0.18);
+    transform: translateY(-1px);
+}
+
+.form-hotline-label {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #6b6b6b;
+}
+
+.form-hotline-number {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    color: #2c2c2c;
+}
+
 .luxury-contact-form {
     opacity: 0;
     transform: translateY(40px);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(212, 175, 55, 0.12);
 }
 
 .form-fields-container {

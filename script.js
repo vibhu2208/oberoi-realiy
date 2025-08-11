@@ -81,12 +81,10 @@ function initLoaderAnimation() {
     // Create a timeline for the loader animation sequence
     const loaderTimeline = gsap.timeline({
         onComplete: () => {
-            // If user hasn't scrolled, auto-hide after 5 seconds
-            setTimeout(() => {
-                if (!loader.classList.contains('hidden')) {
-                    hideLoader();
-                }
-            }, 5000);
+            // Auto-hide loader immediately once the intro animation finishes
+            if (!loader.classList.contains('hidden')) {
+                hideLoader();
+            }
         }
     });
     
@@ -211,16 +209,16 @@ function initLoaderAnimation() {
         y: 0,
         duration: 1,
         ease: "power2.out"
-    }, "-=0.5")
-    
-    // Start floating animation for scroll indicator
-    .to(scrollIndicator, {
+    }, "-=0.5");
+
+    // Start floating animation for scroll indicator independently (doesn't affect timeline duration)
+    gsap.to(scrollIndicator, {
         y: -10,
         repeat: -1,
         yoyo: true,
         duration: 1.2,
         ease: "sine.inOut"
-    }, "-=0.5");
+    });
     
     // Function to hide loader and show main content
     function hideLoader() {
@@ -250,28 +248,7 @@ function initLoaderAnimation() {
         });
     }
     
-    // Step 6: Handle scroll/wheel to reveal main site
-    let hasScrolled = false;
-    
-    function handleScroll() {
-        if (!hasScrolled && window.scrollY > 50) {
-            hasScrolled = true;
-            hideLoader();
-        }
-    }
-    
-    function handleWheel(e) {
-        if (!hasScrolled && e.deltaY > 0) {
-            hasScrolled = true;
-            hideLoader();
-        }
-    }
-    
-    // Add scroll and wheel event listeners after a delay
-    setTimeout(() => {
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('wheel', handleWheel);
-    }, 4000); // Wait for animations to complete
+    // Removed scroll-to-begin behavior: page now opens automatically after loader
 }
 
 function startTypingEffect(element, text, cursorElement) {
