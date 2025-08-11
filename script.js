@@ -282,6 +282,7 @@ function startTypingEffect(element, text, cursorElement) {
 function initMainContentAnimations() {
     // Animate hero section elements
     const heroContent = document.querySelector('.hero-content-container');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     if (heroContent) {
         const heroTitle = heroContent.querySelector('h1');
         const heroSubtitle = heroContent.querySelector('p');
@@ -294,14 +295,20 @@ function initMainContentAnimations() {
         });
         
         // Create hero animation timeline
-        const heroTimeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: heroContent,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
-            }
-        });
+        let heroTimeline;
+        if (isMobile) {
+            // No scroll trigger on mobile; play immediately
+            heroTimeline = gsap.timeline();
+        } else {
+            heroTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: heroContent,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        }
         
         heroTimeline
             .to(heroTitle, {
@@ -332,19 +339,29 @@ function initMainContentAnimations() {
         y: 50
     });
     
-    gsap.to(projectCards, {
-        duration: 1,
-        opacity: 1,
-        y: 0,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-            trigger: ".project-grid",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        }
-    });
+    if (isMobile) {
+        gsap.to(projectCards, {
+            duration: 1,
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
+    } else {
+        gsap.to(projectCards, {
+            duration: 1,
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".project-grid",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    }
 
     // Animate About Oberoi Realty section
     const aboutSection = document.querySelector('.about-section');
@@ -361,80 +378,86 @@ function initMainContentAnimations() {
                 y: 40
             });
 
-            gsap.fromTo([aboutSubheading, aboutHeading], 
-                {
-                    opacity: 0,
-                    y: 40
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    stagger: 0.2,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: aboutSection,
-                        start: "top 75%",
-                        end: "bottom 25%",
-                        toggleActions: "play none none none"
+            if (isMobile) {
+                gsap.fromTo([aboutSubheading, aboutHeading],
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: "power2.out" }
+                );
+            } else {
+                gsap.fromTo([aboutSubheading, aboutHeading], 
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        stagger: 0.2,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: aboutSection,
+                            start: "top 75%",
+                            end: "bottom 25%",
+                            toggleActions: "play none none none"
+                        }
                     }
-                }
-            );
+                );
+            }
         }
 
         // Animate about lines with stagger
         if (aboutLines.length > 0) {
-            gsap.set(aboutLines, {
-                opacity: 0,
-                y: 40
-            });
+            gsap.set(aboutLines, { opacity: 0, y: 40 });
 
-            gsap.fromTo(aboutLines, 
-                {
-                    opacity: 0,
-                    y: 40
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    stagger: 0.3,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: aboutSection,
-                        start: "top 70%",
-                        end: "bottom 30%",
-                        toggleActions: "play none none none"
+            if (isMobile) {
+                gsap.fromTo(aboutLines,
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.9, stagger: 0.2, ease: "power2.out" }
+                );
+            } else {
+                gsap.fromTo(aboutLines, 
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        stagger: 0.3,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: aboutSection,
+                            start: "top 70%",
+                            end: "bottom 30%",
+                            toggleActions: "play none none none"
+                        }
                     }
-                }
-            );
+                );
+            }
         }
 
         // Animate CTA button last
         if (aboutCta) {
-            gsap.set(aboutCta, {
-                opacity: 0,
-                y: 40
-            });
+            gsap.set(aboutCta, { opacity: 0, y: 40 });
 
-            gsap.fromTo(aboutCta, 
-                {
-                    opacity: 0,
-                    y: 40
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: aboutSection,
-                        start: "top 65%",
-                        end: "bottom 35%",
-                        toggleActions: "play none none none"
+            if (isMobile) {
+                gsap.fromTo(aboutCta,
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }
+                );
+            } else {
+                gsap.fromTo(aboutCta, 
+                    { opacity: 0, y: 40 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: aboutSection,
+                            start: "top 65%",
+                            end: "bottom 35%",
+                            toggleActions: "play none none none"
+                        }
                     }
-                }
-            );
+                );
+            }
         }
     }
     
@@ -446,19 +469,29 @@ function initMainContentAnimations() {
         y: 30
     });
     
-    gsap.to(contactItems, {
-        duration: 1,
-        opacity: 1,
-        y: 0,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-            trigger: ".contact-info",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
-        }
-    });
+    if (isMobile) {
+        gsap.to(contactItems, {
+            duration: 1,
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            ease: "power2.out"
+        });
+    } else {
+        gsap.to(contactItems, {
+            duration: 1,
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".contact-info",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    }
 }
 
 // Smooth scrolling for navigation links
