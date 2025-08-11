@@ -627,24 +627,20 @@ function initHighlightsAnimation() {
     // Animate the gold brushstroke underline
     const brushstroke = document.querySelector('.brushstroke');
     if (brushstroke) {
-        // Get the total length of the path for accurate animation
-        const pathLength = brushstroke.getTotalLength();
-        
-        // Set initial state
-        gsap.set(brushstroke, {
-            strokeDasharray: pathLength,
-            strokeDashoffset: pathLength
-        });
-        
-        // Animate the stroke drawing
         if (isMobile) {
-            gsap.to(brushstroke, {
-                strokeDashoffset: 0,
-                duration: 1.2,
-                ease: 'power2.out',
-                delay: 0.3
-            });
+            // On mobile: hide the brushstroke and do not animate
+            gsap.set(brushstroke, { display: 'none' });
         } else {
+            // Get the total length of the path for accurate animation
+            const pathLength = brushstroke.getTotalLength();
+            
+            // Set initial state
+            gsap.set(brushstroke, {
+                strokeDasharray: pathLength,
+                strokeDashoffset: pathLength
+            });
+            
+            // Animate the stroke drawing on desktop/tablet
             gsap.to(brushstroke, {
                 strokeDashoffset: 0,
                 duration: 1.5,
