@@ -259,7 +259,7 @@
             <!-- Amenities Categories Section -->
             <section class="amenities-categories-section">
                 <div class="amenities-categories-container">
-                    <h2 class="categories-title">Explore Our Premium Categories</h2>
+                    <h2 class="categories-title">Explore Our Amenities Categories</h2>
                     
                     <div class="categories-grid">
                         <div class="category-card" data-category="entrance">
@@ -426,21 +426,21 @@
             <section class="luxury-contact-form-section">
                 <div class="luxury-contact-container">
                     <div class="form-header">
-                        <h2 class="form-title">Get In Touch</h2>
-                        <p class="form-subtitle">Experience luxury living with Oberoi Realty</p>
+                        <p class="form-title">Get In Touch</p>
+                        <p class="form-subtitle">Experience luxury living with Oberoi Realty Gurgaon</p>
                         <a class="form-hotline" href="tel:+918527134491" aria-label="Call Oberoi Realty at 8527134491">
                             <span class="form-hotline-label">Call us:</span>
                             <span class="form-hotline-number">+91 8527 134 491</span>
                         </a>
                     </div>
                     
-                    <form class="luxury-contact-form" id="luxuryContactForm">
+                    <form class="luxury-contact-form" id="luxuryContactForm" action="form.php" method="POST">
                         <div class="form-fields-container">
                             <div class="form-field">
                                 <input 
                                     type="text" 
                                     id="fullName" 
-                                    name="fullName" 
+                                    name="name" 
                                     class="form-input" 
                                     placeholder="Full Name" 
                                     required
@@ -452,7 +452,7 @@
                                 <input 
                                     type="tel" 
                                     id="phoneNumber" 
-                                    name="phoneNumber" 
+                                    name="mobile" 
                                     class="form-input" 
                                     placeholder="Phone Number" 
                                     required
@@ -464,12 +464,13 @@
                                 <input 
                                     type="email" 
                                     id="emailAddress" 
-                                    name="emailAddress" 
+                                    name="email" 
                                     class="form-input" 
                                     placeholder="Email Address" 
                                 >
                                 <label for="emailAddress" class="form-label"></label>
                             </div>
+                            <input type="hidden" name="project" value="Oberoi Realty Gurgaon">
                             
                             <button type="submit" class="form-submit-btn">
                                 <span class="btn-text">Submit Inquiry</span>
@@ -483,7 +484,7 @@
 
         <footer class="footer">
             <div class="container">
-                <p>&copy; 2024 Oberoi Realty.</p>
+                <p>&copy; 2025 Oberoi Realty Gurgaon.</p>
                 <div class="disclaimer">
                     <p><strong>Disclaimer:</strong> This website is only for the purpose of providing information About the Oberoi Realty. Any information which is being provided on this website is not an advertisement or a solicitation. The company has not verified the information and the compliances of the projects. Further, the company has not checked the RERA* registration status of the real estate projects listed herein. The company does not make any representation in regards to the compliances done against these projects. Please note that you should make yourself aware about the RERA* registration status of the project.</p>
                 </div>
@@ -504,7 +505,7 @@
                 </button>
             </div>
             
-            <form class="popup-form" id="scheduleForm">
+            <form class="popup-form" id="scheduleForm" action="form.php" method="POST">
                 <div class="popup-form-field">
                     <input 
                         type="text" 
@@ -521,7 +522,7 @@
                     <input 
                         type="tel" 
                         id="popupPhone" 
-                        name="phone" 
+                        name="mobile" 
                         class="popup-input" 
                         placeholder="Phone Number" 
                         required
@@ -539,6 +540,7 @@
                     >
                     <label for="popupEmail" class="popup-label"></label>
                 </div>
+                <input type="hidden" name="project" value="Oberoi Realty Gurgaon">
                 
                 <button type="submit" class="popup-submit-btn">
                     <span class="popup-btn-text">Schedule Visit</span>

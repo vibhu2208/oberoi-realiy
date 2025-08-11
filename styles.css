@@ -2068,7 +2068,7 @@ body.content-visible {
 
 /* Luxury Contact Form Section */
 .luxury-contact-form-section {
-    background: linear-gradient(135deg, #ffffff 0%, #faf8f5 50%, #f8f6f0 100%);
+    background: #e2d6ad;
     padding: 5rem 0 6rem 0;
     position: relative;
     overflow: hidden;
@@ -2117,7 +2117,8 @@ body.content-visible {
 
 .form-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-size: 1rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     color: #2c2c2c;
     margin-bottom: 1rem;
@@ -2141,7 +2142,7 @@ body.content-visible {
     margin-top: 0.75rem;
     text-decoration: none;
     background: rgba(212, 175, 55, 0.12);
-    border: 1px solid rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(0, 0, 0, 0.25);
     color: #2c2c2c;
     padding: 0.45rem 0.75rem;
     border-radius: 999px;
@@ -2156,13 +2157,14 @@ body.content-visible {
 .form-hotline-label {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1.5rem;
     color: #6b6b6b;
 }
 
 .form-hotline-number {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
+    font-size: 1.5rem;
     letter-spacing: 0.4px;
     color: #2c2c2c;
 }
@@ -2206,9 +2208,9 @@ body.content-visible {
 }
 
 .form-input {
-    background: rgba(182, 177, 177, 0.25);
+    background: rgba(161, 159, 159, 0.25);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(117, 116, 116, 0.3);
     border-radius: 8px;
     padding: 1.125rem 1.25rem;
     font-family: 'Cormorant Garamond', serif;
@@ -2222,7 +2224,8 @@ body.content-visible {
 }
 
 .form-input::placeholder {
-    color: #999;
+    color: #000000;
+    font-weight: 500;
     transition: opacity 0.3s ease;
 }
 
@@ -2235,7 +2238,7 @@ body.content-visible {
 }
 
 .form-input:focus::placeholder {
-    opacity: 0.5;
+    opacity: 0.8;
 }
 
 .form-input:focus + .form-label {

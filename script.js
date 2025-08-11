@@ -1129,7 +1129,7 @@ function initScheduleVisitPopup() {
         
         // Basic validation
         const name = formData.get('name');
-        const phone = formData.get('phone');
+        const phone = formData.get('mobile');
         
         if (!name || !phone) {
             // Show validation error with animation
@@ -1137,32 +1137,30 @@ function initScheduleVisitPopup() {
             return;
         }
         
-        // Identify source
-        formData.append('form_source', 'schedule_popup');
+        // Submit directly to form.php with expected field names
+        if (submitBtn) submitBtn.disabled = true;
         
-        try {
-            if (submitBtn) submitBtn.disabled = true;
-            const res = await fetch('mailer.php', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await res.json();
-            
-            if (data && data.success) {
-                showPopupMessage('Thank you! We\'ll contact you to schedule your visit.', 'success');
-                setTimeout(() => {
-                    closePopup();
-                }, 1200);
-            } else {
-                showPopupMessage('Submission failed. Please try again.', 'error');
-                console.error('Mailer error:', data);
-            }
-        } catch (err) {
-            showPopupMessage('Network error. Please try again later.', 'error');
-            console.error('Mailer request failed:', err);
-        } finally {
-            if (submitBtn) submitBtn.disabled = false;
-        }
+        const tempForm = document.createElement('form');
+        tempForm.action = 'form.php';
+        tempForm.method = 'POST';
+        
+        const addHidden = (n, v) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = n;
+            input.value = v || '';
+            tempForm.appendChild(input);
+        };
+        
+        // Map to form.php expected fields
+        addHidden('name', name);
+        addHidden('mobile', phone);
+        addHidden('email', formData.get('email') || '');
+        addHidden('project', 'Oberoi Realty Gurgaon');
+        addHidden('form_source', 'schedule_popup');
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
     }
     
     // Popup message display
@@ -1421,8 +1419,8 @@ function initLuxuryContactForm() {
         const formData = new FormData(form);
         
         // Basic validation
-        const fullName = formData.get('fullName');
-        const phoneNumber = formData.get('phoneNumber');
+        const fullName = formData.get('name');
+        const phoneNumber = formData.get('mobile');
         
         if (!fullName || !phoneNumber) {
             // Show validation error with animation
@@ -1430,43 +1428,30 @@ function initLuxuryContactForm() {
             return;
         }
         
-        // Identify source
-        formData.append('form_source', 'footer_form');
+        // Submit directly to form.php with expected field names
+        if (submitBtn) submitBtn.disabled = true;
         
-        try {
-            if (submitBtn) submitBtn.disabled = true;
-            const res = await fetch('mailer.php', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await res.json();
-            
-            if (data && data.success) {
-                showFormMessage('Thank you! We\'ll contact you soon.', 'success');
-                setTimeout(() => {
-                    form.reset();
-                    // Reset label colors
-                    formInputs.forEach(input => {
-                        const label = input.closest('.form-field').querySelector('.form-label');
-                        if (label) {
-                            gsap.to(label, {
-                                color: "#666",
-                                duration: 0.3,
-                                ease: "power2.out"
-                            });
-                        }
-                    });
-                }, 500);
-            } else {
-                showFormMessage('Submission failed. Please try again.', 'error');
-                console.error('Mailer error:', data);
-            }
-        } catch (err) {
-            showFormMessage('Network error. Please try again later.', 'error');
-            console.error('Mailer request failed:', err);
-        } finally {
-            if (submitBtn) submitBtn.disabled = false;
-        }
+        const tempForm = document.createElement('form');
+        tempForm.action = 'form.php';
+        tempForm.method = 'POST';
+        
+        const addHidden = (name, value) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value || '';
+            tempForm.appendChild(input);
+        };
+        
+        // Map to form.php expected fields
+        addHidden('name', fullName);
+        addHidden('mobile', phoneNumber);
+        addHidden('email', formData.get('email') || '');
+        addHidden('project', 'Oberoi Realty Gurgaon');
+        addHidden('form_source', 'footer_form');
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
     }
     
     // Form message display
