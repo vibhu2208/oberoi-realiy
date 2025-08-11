@@ -1082,7 +1082,7 @@ function initScheduleVisitPopup() {
     }
     
     // Form submission handler
-    function handlePopupFormSubmission() {
+    async function handlePopupFormSubmission() {
         const formData = new FormData(scheduleForm);
         
         // Basic validation
@@ -1095,13 +1095,32 @@ function initScheduleVisitPopup() {
             return;
         }
         
-        // Show success message
-        showPopupMessage('Thank you! We\'ll contact you to schedule your visit.', 'success');
+        // Identify source
+        formData.append('form_source', 'schedule_popup');
         
-        // Close popup after delay
-        setTimeout(() => {
-            closePopup();
-        }, 2500);
+        try {
+            if (submitBtn) submitBtn.disabled = true;
+            const res = await fetch('mailer.php', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            
+            if (data && data.success) {
+                showPopupMessage('Thank you! We\'ll contact you to schedule your visit.', 'success');
+                setTimeout(() => {
+                    closePopup();
+                }, 1200);
+            } else {
+                showPopupMessage('Submission failed. Please try again.', 'error');
+                console.error('Mailer error:', data);
+            }
+        } catch (err) {
+            showPopupMessage('Network error. Please try again later.', 'error');
+            console.error('Mailer request failed:', err);
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
     }
     
     // Popup message display
@@ -1332,7 +1351,7 @@ function initLuxuryContactForm() {
     }
     
     // Form submission handler
-    function handleFormSubmission() {
+    async function handleFormSubmission() {
         const form = document.getElementById('luxuryContactForm');
         const formData = new FormData(form);
         
@@ -1346,24 +1365,43 @@ function initLuxuryContactForm() {
             return;
         }
         
-        // Show success message
-        showFormMessage('Thank you! We\'ll contact you soon.', 'success');
+        // Identify source
+        formData.append('form_source', 'footer_form');
         
-        // Reset form after delay
-        setTimeout(() => {
-            form.reset();
-            // Reset label colors
-            formInputs.forEach(input => {
-                const label = input.closest('.form-field').querySelector('.form-label');
-                if (label) {
-                    gsap.to(label, {
-                        color: "#666",
-                        duration: 0.3,
-                        ease: "power2.out"
-                    });
-                }
+        try {
+            if (submitBtn) submitBtn.disabled = true;
+            const res = await fetch('mailer.php', {
+                method: 'POST',
+                body: formData
             });
-        }, 2000);
+            const data = await res.json();
+            
+            if (data && data.success) {
+                showFormMessage('Thank you! We\'ll contact you soon.', 'success');
+                setTimeout(() => {
+                    form.reset();
+                    // Reset label colors
+                    formInputs.forEach(input => {
+                        const label = input.closest('.form-field').querySelector('.form-label');
+                        if (label) {
+                            gsap.to(label, {
+                                color: "#666",
+                                duration: 0.3,
+                                ease: "power2.out"
+                            });
+                        }
+                    });
+                }, 500);
+            } else {
+                showFormMessage('Submission failed. Please try again.', 'error');
+                console.error('Mailer error:', data);
+            }
+        } catch (err) {
+            showFormMessage('Network error. Please try again later.', 'error');
+            console.error('Mailer request failed:', err);
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
     }
     
     // Form message display
