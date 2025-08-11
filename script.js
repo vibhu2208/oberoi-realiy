@@ -543,6 +543,7 @@ function initHighlightsAnimation() {
     const highlightsSection = document.querySelector('.highlights-section');
     const highlightsTitle = document.querySelector('.highlights-title');
     const featureCards = document.querySelectorAll('.feature-card');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     
     if (!highlightsSection || !highlightsTitle || !featureCards.length) {
         console.warn('Highlights section elements not found');
@@ -555,58 +556,73 @@ function initHighlightsAnimation() {
     gsap.set(featureCards, { opacity: 1, y: 0 });
     
     // Create a timeline for the highlights section
-    const highlightsTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: highlightsSection,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse',
-            onEnter: () => {
-                // Animate background color change from dark to white
-                gsap.to(highlightsSection, {
-                    backgroundColor: '#ffffff',
-                    duration: 1.2,
-                    ease: 'power2.inOut'
-                });
-                
-                // Update text colors for contrast
-                gsap.to(highlightsTitle, {
-                    color: '#0e0e0e',
-                    duration: 1.2,
-                    ease: 'power2.inOut'
-                });
-            },
-            onLeaveBack: () => {
-                // Revert when scrolling back past
-                gsap.to(highlightsSection, {
-                    backgroundColor: '#0e0e0e',
-                    duration: 0.8,
-                    ease: 'power2.inOut'
-                });
-                
-                gsap.to(highlightsTitle, {
-                    color: '#ffffff',
-                    duration: 0.8,
-                    ease: 'power2.inOut'
-                });
+    if (!isMobile) {
+        const highlightsTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: highlightsSection,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse',
+                onEnter: () => {
+                    // Animate background color change from dark to white
+                    gsap.to(highlightsSection, {
+                        backgroundColor: '#ffffff',
+                        duration: 1.2,
+                        ease: 'power2.inOut'
+                    });
+                    
+                    // Update text colors for contrast
+                    gsap.to(highlightsTitle, {
+                        color: '#0e0e0e',
+                        duration: 1.2,
+                        ease: 'power2.inOut'
+                    });
+                },
+                onLeaveBack: () => {
+                    // Revert when scrolling back past
+                    gsap.to(highlightsSection, {
+                        backgroundColor: '#0e0e0e',
+                        duration: 0.8,
+                        ease: 'power2.inOut'
+                    });
+                    
+                    gsap.to(highlightsTitle, {
+                        color: '#ffffff',
+                        duration: 0.8,
+                        ease: 'power2.inOut'
+                    });
+                }
             }
-        }
-    });
+        });
+    } else {
+        // On mobile, ensure final visual state
+        gsap.set(highlightsSection, { backgroundColor: '#ffffff' });
+        gsap.set(highlightsTitle, { color: '#0e0e0e' });
+    }
     
     // Animate title with more reliable trigger
-    gsap.from(highlightsTitle, {
-        opacity: 0,
-        y: 50,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-            trigger: highlightsSection,
-            start: 'top 85%',
-            end: 'bottom 15%',
-            toggleActions: 'play none none none',
-            once: true
-        }
-    });
+    if (isMobile) {
+        gsap.from(highlightsTitle, {
+            opacity: 0,
+            y: 50,
+            duration: 1.0,
+            ease: 'power3.out'
+        });
+    } else {
+        gsap.from(highlightsTitle, {
+            opacity: 0,
+            y: 50,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: highlightsSection,
+                start: 'top 85%',
+                end: 'bottom 15%',
+                toggleActions: 'play none none none',
+                once: true
+            }
+        });
+    }
     
     // Animate the gold brushstroke underline
     const brushstroke = document.querySelector('.brushstroke');
@@ -621,38 +637,58 @@ function initHighlightsAnimation() {
         });
         
         // Animate the stroke drawing
-        gsap.to(brushstroke, {
-            strokeDashoffset: 0,
-            duration: 1.5,
-            ease: 'power2.out',
-            delay: 0.5,
-            scrollTrigger: {
-                trigger: highlightsTitle,
-                start: 'top 85%',
-                end: 'bottom 15%',
-                toggleActions: 'play none none none',
-                once: true
-            }
-        });
+        if (isMobile) {
+            gsap.to(brushstroke, {
+                strokeDashoffset: 0,
+                duration: 1.2,
+                ease: 'power2.out',
+                delay: 0.3
+            });
+        } else {
+            gsap.to(brushstroke, {
+                strokeDashoffset: 0,
+                duration: 1.5,
+                ease: 'power2.out',
+                delay: 0.5,
+                scrollTrigger: {
+                    trigger: highlightsTitle,
+                    start: 'top 85%',
+                    end: 'bottom 15%',
+                    toggleActions: 'play none none none',
+                    once: true
+                }
+            });
+        }
     }
     
     // Animate feature cards with stagger - more reliable animation
     gsap.utils.toArray(featureCards).forEach((card, i) => {
-        gsap.from(card, {
-            opacity: 0,
-            y: 60,
-            scale: 0.9,
-            duration: 0.8,
-            ease: 'power2.out',
-            delay: i * 0.1,
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 90%',
-                end: 'bottom 10%',
-                toggleActions: 'play none none none',
-                once: true
-            }
-        });
+        if (isMobile) {
+            gsap.from(card, {
+                opacity: 0,
+                y: 60,
+                scale: 0.95,
+                duration: 0.7,
+                ease: 'power2.out',
+                delay: i * 0.08
+            });
+        } else {
+            gsap.from(card, {
+                opacity: 0,
+                y: 60,
+                scale: 0.9,
+                duration: 0.8,
+                ease: 'power2.out',
+                delay: i * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    end: 'bottom 10%',
+                    toggleActions: 'play none none none',
+                    once: true
+                }
+            });
+        }
         
         // Hover effects
         const icon = card.querySelector('.feature-icon');
@@ -1187,6 +1223,7 @@ function initLuxuryContactForm() {
     const formFields = document.querySelectorAll('.form-field');
     const formInputs = document.querySelectorAll('.form-input');
     const submitBtn = document.querySelector('.form-submit-btn');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     
     if (!formSection || !formHeader || !contactForm) {
         console.warn('Luxury contact form elements not found');
@@ -1197,57 +1234,79 @@ function initLuxuryContactForm() {
     gsap.registerPlugin(ScrollTrigger);
     
     // Animate form header
-    gsap.to(formHeader, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-            trigger: formSection,
-            start: "top 80%",
-            end: "top 50%",
-            toggleActions: "play none none reverse"
-        }
-    });
+    if (isMobile) {
+        gsap.to(formHeader, {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out"
+        });
+    } else {
+        gsap.to(formHeader, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: formSection,
+                start: "top 80%",
+                end: "top 50%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    }
     
     // Animate form container
-    gsap.to(contactForm, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.3,
-        scrollTrigger: {
-            trigger: formSection,
-            start: "top 75%",
-            end: "top 45%",
-            toggleActions: "play none none reverse"
-        }
-    });
+    if (isMobile) {
+        gsap.to(contactForm, {
+            opacity: 1,
+            y: 0,
+            duration: 1.0,
+            ease: "power3.out",
+            delay: 0.2
+        });
+    } else {
+        gsap.to(contactForm, {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out",
+            delay: 0.3,
+            scrollTrigger: {
+                trigger: formSection,
+                start: "top 75%",
+                end: "top 45%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    }
     
     // Animate form fields individually
     formFields.forEach((field, index) => {
-        gsap.fromTo(field, 
-            {
-                opacity: 0,
-                y: 30,
-                scale: 0.95
-            },
-            {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "back.out(1.7)",
-                delay: 0.6 + (index * 0.1),
-                scrollTrigger: {
-                    trigger: formSection,
-                    start: "top 70%",
-                    end: "top 40%",
-                    toggleActions: "play none none reverse"
+        if (isMobile) {
+            gsap.fromTo(field,
+                { opacity: 0, y: 30, scale: 0.95 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.7)", delay: 0.4 + (index * 0.08) }
+            );
+        } else {
+            gsap.fromTo(field, 
+                { opacity: 0, y: 30, scale: 0.95 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    delay: 0.6 + (index * 0.1),
+                    scrollTrigger: {
+                        trigger: formSection,
+                        start: "top 70%",
+                        end: "top 40%",
+                        toggleActions: "play none none reverse"
+                    }
                 }
-            }
-        );
+            );
+        }
     });
     
     // Input focus animations and effects
@@ -1463,52 +1522,61 @@ function initAmenitiesCategoriesAnimation() {
     const galleryClose = document.getElementById('galleryClose');
     const galleryTitle = document.getElementById('galleryTitle');
     const galleryContent = document.getElementById('galleryContent');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
     
     if (!categoriesSection || !categoryCards.length) return;
     
-    // Animate title on scroll
-    gsap.fromTo(categoriesTitle,
-        {
-            opacity: 0,
-            y: 30
-        },
-        {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: categoriesSection,
-                start: "top 80%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse"
+    // Animate title (no scroll on mobile)
+    if (isMobile) {
+        gsap.fromTo(categoriesTitle, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" });
+    } else {
+        gsap.fromTo(categoriesTitle,
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: categoriesSection,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
             }
-        }
-    );
+        );
+    }
     
-    // Animate category cards with stagger
-    gsap.fromTo(categoryCards,
-        {
-            opacity: 0,
-            y: 50
-        },
-        {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power2.out",
-            stagger: {
-                amount: 1.5,
-                from: "start"
-            },
-            scrollTrigger: {
-                trigger: ".categories-grid",
-                start: "top 75%",
-                end: "bottom 25%",
-                toggleActions: "play none none reverse"
+    // Animate category cards with stagger (no scroll on mobile)
+    if (isMobile) {
+        gsap.fromTo(categoryCards,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power2.out",
+                stagger: { amount: 1.2, from: "start" }
             }
-        }
-    );
+        );
+    } else {
+        gsap.fromTo(categoryCards,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                stagger: { amount: 1.5, from: "start" },
+                scrollTrigger: {
+                    trigger: ".categories-grid",
+                    start: "top 75%",
+                    end: "bottom 25%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+    }
     
     // Category data for gallery
     const categoryData = {
